@@ -25,7 +25,7 @@ public class PoliceService implements IBackendlessService {
 
     public void report(String userId, byte[] image, double latitude, double longitude, String description) throws Exception {
         if (image == null || image.length == 0)
-            throw new IllegalArgumentException("Some arguments are null.");
+            throw new IllegalArgumentException("Please, insert image.");
 
         BackendlessUser user = Backendless.UserService.findById(userId);
         GeoPoint geoPoint = Backendless.Geo.savePoint(latitude, longitude, Arrays.asList(GEO_POINT_CATEGORY), Collections.EMPTY_MAP);
@@ -52,7 +52,7 @@ public class PoliceService implements IBackendlessService {
         return points;
     }
 
-    public BackendlessCollection<GeoPoint> getInMap(double nlatitude, double wlongiture, double slatitude, double elongitude, int mapWidth)
+    public BackendlessCollection<GeoPoint> getOnMap(double nlatitude, double wlongiture, double slatitude, double elongitude, int mapWidth)
     {
         BackendlessGeoQuery query = new BackendlessGeoQuery();
         query.setWhereClause(String.format("timestamp > %s", getDateTimeBefore(DEFAULT_TIME_INTERVAL).getTime()));
@@ -79,7 +79,7 @@ public class PoliceService implements IBackendlessService {
         String imageName = geoPoint.getObjectId() + ".png";
         Backendless.Files.saveFile(imagePath, imageName, image);
 
-        return imageName + "/" + imageName;
+        return imagePath + "/" + imageName;
     }
 
     private Map<String, Object> createMetadata(BackendlessUser user, String imageFullPath, String description) {

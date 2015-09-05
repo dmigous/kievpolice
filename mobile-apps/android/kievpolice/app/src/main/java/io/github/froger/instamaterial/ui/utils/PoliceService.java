@@ -17,37 +17,49 @@ public class PoliceService
     static final String SERVICE_VERSION_NAME = "1.0";
 
     
-    public com.backendless.BackendlessCollection<com.backendless.geo.GeoPoint> getInMap(double nlatitude, double wlongiture, double slatitude, double elongitude, int mapWidth)
+    public static com.backendless.BackendlessCollection<com.backendless.geo.GeoPoint> getOnMap(double nlatitude, double wlongiture, double slatitude, double elongitude, int mapWidth)
     {
         Object[] args = new Object[]{nlatitude, wlongiture, slatitude, elongitude, mapWidth};
-        return Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "getInMap", args, com.backendless.BackendlessCollection.class );
+        return Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "getOnMap", args, com.backendless.BackendlessCollection.class );
     }
     
-    public void getInMapAsync(double nlatitude, double wlongiture, double slatitude, double elongitude, int mapWidth, AsyncCallback<com.backendless.BackendlessCollection<com.backendless.geo.GeoPoint>> callback)
+    public static void getOnMapAsync(double nlatitude, double wlongiture, double slatitude, double elongitude, int mapWidth, AsyncCallback<com.backendless.BackendlessCollection<com.backendless.geo.GeoPoint>> callback)
     {
         Object[] args = new Object[]{nlatitude, wlongiture, slatitude, elongitude, mapWidth};
-        Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "getInMap", args, com.backendless.BackendlessCollection.class, callback);
+        Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "getOnMap", args, com.backendless.BackendlessCollection.class, callback);
     }
     
-    public com.backendless.BackendlessCollection<com.backendless.geo.GeoPoint> getReports(double latitude, double longitude, double radius)
+    public static com.backendless.BackendlessCollection<com.backendless.geo.GeoPoint> getReports(double latitude, double longitude, double radius)
     {
         Object[] args = new Object[]{latitude, longitude, radius};
         return Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "getReports", args, com.backendless.BackendlessCollection.class );
     }
     
-    public void getReportsAsync(double latitude, double longitude, double radius, AsyncCallback<com.backendless.BackendlessCollection<com.backendless.geo.GeoPoint>> callback)
+    public static void getReportsAsync(double latitude, double longitude, double radius, AsyncCallback<com.backendless.BackendlessCollection<com.backendless.geo.GeoPoint>> callback)
     {
         Object[] args = new Object[]{latitude, longitude, radius};
         Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "getReports", args, com.backendless.BackendlessCollection.class, callback);
     }
     
-    public void report(String userId, byte[] image, double latitude, double longitude, String description)
+    public static void completeRequest(com.backendless.geo.GeoPoint point)
+    {
+        Object[] args = new Object[]{point};
+        Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "completeRequest", args );
+    }
+    
+    public static void completeRequestAsync(com.backendless.geo.GeoPoint point, AsyncCallback<Object> callback)
+    {
+        Object[] args = new Object[]{point};
+        Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "completeRequest", args, Object.class, callback);
+    }
+    
+    public static void report(String userId, byte[] image, double latitude, double longitude, String description)
     {
         Object[] args = new Object[]{userId, image, latitude, longitude, description};
         Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "report", args );
     }
     
-    public void reportAsync(String userId, byte[] image, double latitude, double longitude, String description, AsyncCallback<Object> callback)
+    public static void reportAsync(String userId, byte[] image, double latitude, double longitude, String description, AsyncCallback<Object> callback)
     {
         Object[] args = new Object[]{userId, image, latitude, longitude, description};
         Backendless.CustomService.invoke( SERVICE_NAME, SERVICE_VERSION_NAME, "report", args, Object.class, callback);
