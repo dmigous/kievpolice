@@ -1,26 +1,16 @@
 package ua.police.service;
 
 import com.backendless.Backendless;
-import com.backendless.BackendlessUser;
-import com.backendless.geo.GeoPoint;
-import com.backendless.Backendless;
 import com.backendless.BackendlessCollection;
+import com.backendless.BackendlessUser;
 import com.backendless.geo.BackendlessGeoQuery;
 import com.backendless.geo.GeoPoint;
 import com.backendless.geo.Units;
 import com.backendless.servercode.IBackendlessService;
-import ua.police.config.Config;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class PoliceService implements IBackendlessService {
-    private static final double DEFAULT_RADIUS = 1.0;
     private static final int DEFAULT_TIME_INTERVAL = 6;
 
     public final static String IMAGE_FILE_PRE_PATH = "/police/users/";
@@ -42,17 +32,26 @@ public class PoliceService implements IBackendlessService {
         Backendless.Geo.savePoint(geoPoint);
     }
 
-    public BackendlessCollection<GeoPoint> getLatest( double latitude, double longitude )
+    public BackendlessCollection<GeoPoint> getReports(double latitude, double longitude, double radius)
     {
         BackendlessGeoQuery query = new BackendlessGeoQuery();
         query.setLatitude(latitude);
         query.setLongitude(longitude);
-        query.setUnits(Units.KILOMETERS);
-        query.setRadius(DEFAULT_RADIUS);
+        query.setUnits(Units.METERS);
+        query.setRadius(radius);
         query.setWhereClause(String.format("timestamp > %s", getDateTimeBefore(DEFAULT_TIME_INTERVAL).getTime()));
         query.setIncludeMeta(true);
         BackendlessCollection<GeoPoint> points = Backendless.Geo.getPoints(query);
         return points;
+    }
+
+    public BackendlessCollection<GeoPoint> getInMap(double nlatitude, double wlongiture, double slatitude, double elongitude, int mapWidth)
+    {
+        BackendlessGeoQuery query = new BackendlessGeoQuery();
+        query.setWhereClause(String.format("timestamp > %s", getDateTimeBefore(DEFAULT_TIME_INTERVAL).getTime()));
+        query.setSearchRectangle(new double[]{nlatitude, wlongiture, slatitude, elongitude});
+        query.setClusteringParams(wlongiture, elongitude, mapWidth);
+        return Backendless.Geo.getPoints(query);
     }
 
     private String saveFile(byte[] image, String userId, GeoPoint geoPoint) {
