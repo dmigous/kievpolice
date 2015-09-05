@@ -20,6 +20,8 @@ public class PoliceService implements IBackendlessService {
     public final static String IMAGE_DESCRIPTION_METADATA = "description";
     public final static String TIMESTAMP_METADATA = "timestamp";
     public final static String IS_ACTIVE_METADATA = "isActive";
+    public static final String POLICEMAN = "policeman";
+    public static final String ROLE_KEY = "role";
 
     public void report(String userId, byte[] image, double latitude, double longitude, String description) throws Exception {
         if (image == null || image.length == 0)
@@ -42,6 +44,9 @@ public class PoliceService implements IBackendlessService {
         query.setUnits(Units.METERS);
         query.setRadius(radius);
         query.setWhereClause(String.format("timestamp > %s", getDateTimeBefore(DEFAULT_TIME_INTERVAL).getTime()));
+        HashMap<String, Object> metaSearch = new HashMap<String, Object>();
+        metaSearch.put(IS_ACTIVE_METADATA, true);
+        query.setMetadata(metaSearch);
         query.setIncludeMeta(true);
         BackendlessCollection<GeoPoint> points = Backendless.Geo.getPoints(query);
         return points;
@@ -58,8 +63,15 @@ public class PoliceService implements IBackendlessService {
 
     public void completeRequest(GeoPoint point)
     {
+        BackendlessUser user = (BackendlessUser)point.getMetadata(USER_METADATA);
+        if (!isPolicemen(user))
+            throw new RuntimeException("Only policemen can complete requests");
         point.putMetadata(IS_ACTIVE_METADATA, false);
         Backendless.Geo.savePoint(point);
+    }
+
+    private boolean isPolicemen(BackendlessUser user) {
+        return POLICEMAN.equals(user.getProperty(ROLE_KEY));
     }
 
     private String saveFile(byte[] image, String userId, GeoPoint geoPoint) {
