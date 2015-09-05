@@ -19,9 +19,11 @@ public class PoliceService implements IBackendlessService {
     public final static String IMAGE_PATH_METADATA = "imagePath";
     public final static String IMAGE_DESCRIPTION_METADATA = "description";
     public final static String TIMESTAMP_METADATA = "timestamp";
+    public final static String IS_ACTIVE_METADATA = "isActive";
 
     public void report(String userId, byte[] image, double latitude, double longitude, String description) throws Exception {
-        PoliceServiceValidator.notNullValidation(image);
+        if (image == null || image.length == 0)
+            throw new IllegalArgumentException("Some arguments are null.");
 
         BackendlessUser user = Backendless.UserService.findById(userId);
         GeoPoint geoPoint = Backendless.Geo.savePoint(latitude, longitude, Arrays.asList(GEO_POINT_CATEGORY), Collections.EMPTY_MAP);
@@ -54,6 +56,12 @@ public class PoliceService implements IBackendlessService {
         return Backendless.Geo.getPoints(query);
     }
 
+    public void completeRequest(GeoPoint point)
+    {
+        point.putMetadata(IS_ACTIVE_METADATA, false);
+        Backendless.Geo.savePoint(point);
+    }
+
     private String saveFile(byte[] image, String userId, GeoPoint geoPoint) {
         String imagePath = IMAGE_FILE_PRE_PATH + userId;
         String imageName = geoPoint.getObjectId() + ".png";
@@ -69,6 +77,7 @@ public class PoliceService implements IBackendlessService {
         metadata.put(IMAGE_PATH_METADATA, imageFullPath);
         metadata.put(IMAGE_DESCRIPTION_METADATA, description);
         metadata.put(TIMESTAMP_METADATA, new Date().getTime());
+        metadata.put(IS_ACTIVE_METADATA, true);
 
         return metadata;
     }
