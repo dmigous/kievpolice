@@ -2,6 +2,7 @@ package io.github.froger.instamaterial.ui.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -12,6 +13,9 @@ import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.ToggleButton;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -28,6 +32,7 @@ import timber.log.Timber;
  */
 public class PublishActivity extends BaseActivity {
     public static final String ARG_TAKEN_PHOTO_URI = "arg_taken_photo_uri";
+    public static LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
     @InjectView(R.id.ivPhoto)
     ImageView ivPhoto;
@@ -123,5 +128,13 @@ public class PublishActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(ARG_TAKEN_PHOTO_URI, photoUri);
+    }
+
+    private Location getCurrentLocation()
+    {
+        String bestProvider = locationManager.getBestProvider( new Criteria(), true );
+        locationManager.requestLocationUpdates(bestProvider, 0, 0, this);
+        Location location = lm.getLastKnownLocation(bestProvider);
+        return location;
     }
 }
