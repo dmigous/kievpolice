@@ -73,26 +73,6 @@
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/btn_default_light"
-                    android:src="@drawable/ic_edit_white_24dp" />
-
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/btn_default_light"
-                    android:src="@drawable/ic_edit_white_24dp" />
-
-                <ImageButton
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/btn_default_light"
-                    android:src="@drawable/ic_edit_white_24dp" />
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
@@ -188,13 +168,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvFilters"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="none" />
-
             </LinearLayout>
         </ViewSwitcher>
 
