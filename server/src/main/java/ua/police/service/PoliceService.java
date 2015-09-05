@@ -3,23 +3,32 @@ package ua.police.service;
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.geo.GeoPoint;
+import com.backendless.Backendless;
+import com.backendless.BackendlessCollection;
+import com.backendless.geo.BackendlessGeoQuery;
+import com.backendless.geo.GeoPoint;
+import com.backendless.geo.Units;
 import com.backendless.servercode.IBackendlessService;
+import ua.police.config.Config;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by koxa on 05.09.2015.
- */
+import java.util.Calendar;
+import java.util.Date;
+
 public class PoliceService implements IBackendlessService {
+    private static final double DEFAULT_RADIUS = 1.0;
+    private static final int DEFAULT_TIME_INTERVAL = 6;
 
     public final static String IMAGE_FILE_PRE_PATH = "/police/users/";
     public final static String GEO_POINT_CATEGORY = "Offender";
     public final static String USER_METADATA = "user";
     public final static String IMAGE_PATH_METADATA = "imagePath";
     public final static String IMAGE_DESCRIPTION_METADATA = "description";
+    public final static String TIMESTAMP_METADATA = "timestamp";
 
     public void report(String userId, byte[] image, double latitude, double longitude, String description) throws Exception {
         PoliceServiceValidator.notNullValidation(image);
@@ -31,6 +40,19 @@ public class PoliceService implements IBackendlessService {
         Map<String, Object> meta = createMetadata(user, imagePath, description);
         geoPoint.setMetadata(meta);
         Backendless.Geo.savePoint(geoPoint);
+    }
+
+    public BackendlessCollection<GeoPoint> getLatest( double latitude, double longitude )
+    {
+        BackendlessGeoQuery query = new BackendlessGeoQuery();
+        query.setLatitude(latitude);
+        query.setLongitude(longitude);
+        query.setUnits(Units.KILOMETERS);
+        query.setRadius(DEFAULT_RADIUS);
+        query.setWhereClause(String.format("timestamp > %s", getDateTimeBefore(DEFAULT_TIME_INTERVAL).getTime()));
+        query.setIncludeMeta(true);
+        BackendlessCollection<GeoPoint> points = Backendless.Geo.getPoints(query);
+        return points;
     }
 
     private String saveFile(byte[] image, String userId, GeoPoint geoPoint) {
@@ -47,7 +69,16 @@ public class PoliceService implements IBackendlessService {
         metadata.put(USER_METADATA, user);
         metadata.put(IMAGE_PATH_METADATA, imageFullPath);
         metadata.put(IMAGE_DESCRIPTION_METADATA, description);
+        metadata.put(TIMESTAMP_METADATA, new Date().getTime());
 
         return metadata;
+    }
+
+    private static Date getDateTimeBefore( int hours )
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.HOUR, -hours);
+        return cal.getTime();
     }
 }
