@@ -23,41 +23,10 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:src="@drawable/img_toolbar_logo"
-                android:text="SHARE TO"
+                android:text="REPORT"
                 android:textColor="#333333"
                 android:textSize="18sp" />
         </android.support.v7.widget.Toolbar>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-
-            <ToggleButton
-                android:id="@+id/tbFollowers"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="16dp"
-                android:layout_weight="1"
-                android:background="@drawable/switch_publish_followers"
-                android:checked="true"
-                android:textColor="#ffffff"
-                android:textOff="FOLLOWERS"
-                android:textOn="FOLLOWERS" />
-
-            <ToggleButton
-                android:id="@+id/tbDirect"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="24dp"
-                android:layout_weight="1"
-                android:background="@drawable/switch_publish_direct"
-                android:textColor="#ffffff"
-                android:textOff="DIRECT"
-                android:textOn="DIRECT" />
-        </LinearLayout>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_view"
@@ -97,13 +66,6 @@
                         android:textColor="#333333"
                         android:textSize="14sp" />
                 </LinearLayout>
-
-                <Switch
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:text="ADD TO PHOTO MAP" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
