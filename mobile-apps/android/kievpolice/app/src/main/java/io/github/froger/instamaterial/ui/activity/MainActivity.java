@@ -13,6 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+
+import com.backendless.Backendless;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 import io.github.froger.instamaterial.R;
@@ -44,11 +47,11 @@ public class MainActivity extends BaseDrawerActivity implements FeedAdapter.OnFe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Backendless.setUrl( BackendlessDefaults.BACKENDLESS_HOST );
-        Backendless.initApp(BackendlessDefaults.APP_ID, BackendlessDefaults.SECRET_KEY, BackendlessDefaults.APP_VERSION );
-
         setContentView(R.layout.activity_main);
+
+        Backendless.setUrl(BackendlessDefaults.BACKENDLESS_HOST);
+        Backendless.initApp(this, BackendlessDefaults.APP_ID, BackendlessDefaults.SECRET_KEY, BackendlessDefaults.APP_VERSION );
+
         setupFeed();
 
         if (savedInstanceState == null) {
