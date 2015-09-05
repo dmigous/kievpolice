@@ -13,13 +13,13 @@ import java.util.*;
 public class PoliceService implements IBackendlessService {
     private static final int DEFAULT_TIME_INTERVAL = 6;
 
-    public final static String IMAGE_FILE_PRE_PATH = "/police/users/";
-    public final static String GEO_POINT_CATEGORY = "Offender";
-    public final static String USER_METADATA = "user";
-    public final static String IMAGE_PATH_METADATA = "imagePath";
-    public final static String IMAGE_DESCRIPTION_METADATA = "description";
-    public final static String TIMESTAMP_METADATA = "timestamp";
-    public final static String IS_ACTIVE_METADATA = "isActive";
+    public static final String IMAGE_FILE_PRE_PATH = "/police/users/";
+    public static final String GEO_POINT_CATEGORY = "Offender";
+    public static final String USER_METADATA = "user";
+    public static final String IMAGE_PATH_METADATA = "imagePath";
+    public static final String IMAGE_DESCRIPTION_METADATA = "description";
+    public static final String TIMESTAMP_METADATA = "timestamp";
+    public static final String IS_ACTIVE_METADATA = "isActive";
     public static final String POLICEMAN = "policeman";
     public static final String ROLE_KEY = "role";
 
