@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
     <string name="app_name">InstaMaterial</string>
+
+    <string name="service_name">Backendless</string>
+    <string name="service_type">User Service</string>
+    <string name="loggedIn_text">You are now successfully logged in.\nThis concludes the example. Use the button below to logout.</string>
+    <string name="registered_text">Thank you for registering!\nYou can use your email to login.</string>
+
     <plurals name="likes_count">
         <item quantity="one">%d like</item>
         <item quantity="other">%d likes</item>
