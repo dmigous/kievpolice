@@ -68,8 +68,6 @@ public class TakePhotoActivity extends BaseActivity implements RevealBackgroundV
     ViewSwitcher vLowerPanel;
     @InjectView(R.id.cameraView)
     CameraView cameraView;
-    @InjectView(R.id.rvFilters)
-    RecyclerView rvFilters;
     @InjectView(R.id.btnTakePhoto)
     Button btnTakePhoto;
 
@@ -91,7 +89,6 @@ public class TakePhotoActivity extends BaseActivity implements RevealBackgroundV
         updateStatusBarColor();
         updateState(STATE_TAKE_PHOTO);
         setupRevealBackground(savedInstanceState);
-        setupPhotoFilters();
 
         vUpperPanel.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -128,13 +125,6 @@ public class TakePhotoActivity extends BaseActivity implements RevealBackgroundV
         } else {
             vRevealBackground.setToFinishedFrame();
         }
-    }
-
-    private void setupPhotoFilters() {
-        PhotoFiltersAdapter photoFiltersAdapter = new PhotoFiltersAdapter(this);
-        rvFilters.setHasFixedSize(true);
-        rvFilters.setAdapter(photoFiltersAdapter);
-        rvFilters.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
 
     @Override

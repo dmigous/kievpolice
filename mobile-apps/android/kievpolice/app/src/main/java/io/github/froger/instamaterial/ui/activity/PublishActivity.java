@@ -29,14 +29,9 @@ import timber.log.Timber;
 public class PublishActivity extends BaseActivity {
     public static final String ARG_TAKEN_PHOTO_URI = "arg_taken_photo_uri";
 
-    @InjectView(R.id.tbFollowers)
-    ToggleButton tbFollowers;
-    @InjectView(R.id.tbDirect)
-    ToggleButton tbDirect;
     @InjectView(R.id.ivPhoto)
     ImageView ivPhoto;
 
-    private boolean propagatingToggleState = false;
     private Uri photoUri;
     private int photoSize;
 
@@ -128,23 +123,5 @@ public class PublishActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(ARG_TAKEN_PHOTO_URI, photoUri);
-    }
-
-    @OnCheckedChanged(R.id.tbFollowers)
-    public void onFollowersCheckedChange(boolean checked) {
-        if (!propagatingToggleState) {
-            propagatingToggleState = true;
-            tbDirect.setChecked(!checked);
-            propagatingToggleState = false;
-        }
-    }
-
-    @OnCheckedChanged(R.id.tbDirect)
-    public void onDirectCheckedChange(boolean checked) {
-        if (!propagatingToggleState) {
-            propagatingToggleState = true;
-            tbFollowers.setChecked(!checked);
-            propagatingToggleState = false;
-        }
     }
 }
